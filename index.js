@@ -15,7 +15,7 @@ let recipe = "نحوه پخت غذایم را آموزش بده 👨‍🍳|👨
 let bloodTestText = 'لطفا عکس های هر صفحه ازمایش خود را به صورت کاملا واضح و صفحه به صفحه برای ما بفرستید پس از فرستادن هر صفحه از ازمایش در صورت باقی ماندن صفحات دکمه ادامه فرستادن عکس را بزنید \n please sent ous your blood test page by page and after sending each page if theres more click on continue sending'
 let optionBloodTest = ["ادامه فرستادن عکس | continue sending", "نتیجه آزمایش | the final result"];
 let recipeText = "لطفا نام غذای مورد نظرتان را بنویسید 🌭|🌭 please write the name of your food";
-let promptBloodTest =  "Given a set of anonymized medical test results including blood work (CBC, lipid profile, glucose levels, liver and kidney function tests), vital signs (blood pressure, heart rate), and patient-reported outcomes (symptoms, dietary habits, physical activity levels), analyze the data to identify any abnormalities or areas of concern. Based on the analysis, provide a preliminary assessment highlighting potential health issues indicated by the test results. Then, offer general recommendations for dietary adjustments and lifestyle changes that could positively impact the identified conditions. These recommendations should emphasize a balanced diet rich in fruits, vegetables, whole grains, lean proteins, and healthy fats, as well as suggest a moderate-intensity exercise regimen suitable for the patient's age and general health status. Stress the importance of consulting with a healthcare provider for a comprehensive evaluation and personalized advice based on the test results."
+let promptBloodTest = "Given a set of anonymized medical test results including blood work (CBC, lipid profile, glucose levels, liver and kidney function tests), vital signs (blood pressure, heart rate), and patient-reported outcomes (symptoms, dietary habits, physical activity levels), analyze the data to identify any abnormalities or areas of concern. Based on the analysis, provide a preliminary assessment highlighting potential health issues indicated by the test results. Then, offer general recommendations for dietary adjustments and lifestyle changes that could positively impact the identified conditions. These recommendations should emphasize a balanced diet rich in fruits, vegetables, whole grains, lean proteins, and healthy fats, as well as suggest a moderate-intensity exercise regimen suitable for the patient's age and general health status. Stress the importance of consulting with a healthcare provider for a comprehensive evaluation and personalized advice based on the test results."
 let aboutUsText = `
 ما در پروتئین، یک تیم پویا و نوآور در عرصه هوش مصنوعی هستیم. 🚀👨‍💻👩‍💻 با ارائه خدمات و سرویس‌های متنوع و خلاقانه، 🌟🛠️ می‌کوشیم تا دسترسی عموم جامعه به ابزارهای پیشرفته هوش مصنوعی را فراهم آوریم. هدف ما، تسهیل فعالیت‌های حرفه‌ای افراد شاغل از طریق به کارگیری قدرت هوش مصنوعی است. 💡🤖💼 ما بر این باوریم که هر فردی باید بتواند از مزایای این فناوری شگفت‌انگیز به نفع خود و جامعه‌اش بهره ببرد. 🌍❤️ با ما همراه باشید تا با هم آینده‌ای روشن‌تر و هوشمندتر بسازیم. 🌈🛠️🔮
 
@@ -30,7 +30,7 @@ let ifContinuePhoto = 'اگر همچنان میخواهید عکس اضافه ک
 let changeFood = 'غدای رژیمم را عوض کن 🍕|🍕change the food of my diet';
 let makeMeADiet = 'برام یک رژیم غذایی درست کن🥙|🥙make me a diet';
 let wrongPhotoSending = "لطفا از منو گزینه درست را انتخاب کنید\nplease choose the right option from the menu"
-
+let bloodTestPersianAndEnglishAlert = ["نسخه انگلیسی جواب آزمایش\n this the english result of the test", "نسخه فارسی نیز تا حداکثر دو دقیقه دیگر برای شما ارسال خواهد شد|the persian result will send you within two minutes", "نسخه فارسی جواب آزمایش\n this the Persian result of the test"]
 bot.on('message', async (msg) => {
     const chatId = msg.chat.id;
     const text = msg.text;
@@ -110,15 +110,60 @@ bot.on('message', async (msg) => {
             IsRequestingBloodTest: true
         });
     } else if (text === optionBloodTest[1]) {
+        await bot.sendMessage(chatId, "نتیجه آزمایش شما به دو زبان انگلیسی و فارسی برای شما ارسال خواهد شد لطفا صبور باشید معمولا بین ۲ تا ۴ دیقه بررسی ازمایش زمان خواهد برد\nthe result will send in English and persian language please be patient the result need 2 to 4 minutes process to be prepared")
         const object = {
-            text : promptBloodTest,
-            images : userState.photos
+            text: promptBloodTest,
+            images: userState.photos
         }
         axios.post('http://localhost:3001/gpt4plus', object)
             .then((res) => {
                 console.log(res.data);
-                bot.sendMessage(chatId, res.data.choices[0].message.content);
-                sendCustomMessage(bot, chatId);
+                // bot.sendMessage(chatId, bloodTestPersianAndEnglishAlert[0]);
+                // bot.sendMessage(chatId, res.data.choices[0].message.content);
+                // bot.sendMessage(chatId, bloodTestPersianAndEnglishAlert[1]);
+                // bot.sendMessage(chatId, '🤓');
+
+
+                bot.sendMessage(chatId, bloodTestPersianAndEnglishAlert[0])
+                    .then(() => {
+                        return bot.sendMessage(chatId, res.data.choices[0].message.content);
+                    })
+                    .then(() => {
+                        return bot.sendMessage(chatId, bloodTestPersianAndEnglishAlert[1]);
+                    })
+                    .then(() => {
+                        return bot.sendMessage(chatId, '🤓');
+                    })
+                    .catch((error) => {
+                        console.error('Error sending messages:', error);
+                    });
+
+
+                let object2 = {
+                    text: res.data.choices[0].message.content,
+                    destinationLanguage: "Persian"
+                }
+                axios.post('http://localhost:3001/translateApiLanguage', object2)
+                    .then((res) => {
+                        console.log(res.data);
+                        bot.sendMessage(chatId, bloodTestPersianAndEnglishAlert[2])
+                            .then(() => {
+                                return bot.sendMessage(chatId, res.data);
+                            })
+                            .then(() => {
+                                return sendCustomMessage(bot, chatId);
+                            })
+                            .catch((error) => {
+                                console.error('Error sending messages:', error);
+                            });
+                        userStates.set(chatId, {
+                            ...userState,
+                            photos: []
+                        });
+                    })
+                    .catch((error) => {
+                        console.error('Error sending data to server:', error);
+                    });
             })
             .catch((error) => {
                 console.error('Error sending data to server:', error);
@@ -245,7 +290,7 @@ bot.on('message', async (msg) => {
             lastText: "",
             IsRequestingBloodTest: false,
             orderingRecipe: false,
-            photos : []
+            photos: []
         });
         await sendCustomMessage(bot, chatId);
     } else if (text === recipe) {
@@ -284,6 +329,8 @@ bot.on('message', async (msg) => {
     } else if (text === aboutUs[2]) {
         await bot.sendMessage(chatId, aboutUsText);
         await sendCustomMessage(bot, chatId);
+    } else if (text === changeFood) {
+
     } else {
     }
 });
