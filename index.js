@@ -6,6 +6,7 @@ let ifItsJoined = false;
 const userStates = new Map();
 const channelUsername = '@outPatientAi';
 const channelUsername2 = '@ProteinTeam';
+const goalsOfTheDiet = ["هدف اصلی شما از رژیم چیست | whats your primary goal", "کم کردن وزن | weight loss", "عضله سازی | muscle gain", "سبک زندگی سالم | healthy life", "هدف ثانویه شما از رژیم چیست | whats your secondary goal of diet"];
 const joined = ['عضو شدم', 'i joined', 'عضو شدم | i joined'];
 let sportClub = ["آیا به باشگاه دسترسی دارید یا میخواهید در خانه تمرین کنید ؟| ?can you go to gym or you prefer training at home", "باشگاه میروم | i can go to gym", "در خانه تمرین میکنم | I prefer workout at home"];
 let mainMenu = ['منو اصلی', 'main menu', 'منو اصلی | main menu'];
@@ -13,7 +14,7 @@ let createSportProgram = "برام یک برنامه ورزشی درست کن �
 let disability = ["اگر مشکلات پزشکی یا محدودیت جسمی دارید بر روی دکمه توضیح مشکلات بزنید \n if you have a medical problem or disability please press explain your problem", "توضیح مشکل | explain the problem", "مشکلی ندارم | I dont have problem"]
 let bloodTest = ['ازمایش خون', 'blood test', "آزمایشم را بررسی کن🩸🧪|🩸🧪review my blood test"];
 let userProfile = ['حساب کاربری شما📖✏️', 'your profile 📖✏️', 'حساب کاربری شما📖✏️ | your profile 📖✏'];
-let tellMeHowToDoIt = ["اگر نحوه انجام حرکت ورزشی مورد نظر خود را بلد نیستید از داخل منو بخش اموزش حرکات ورزشی میتوانید نحوه انجام ان را ببنید\nif you dont know how to do these move you can go to the menu and choose the option tell me how to do it and see the instruction of the move ", "چجوری این حرکت رو انجام بدم💪🏻|💪🏻tell me how to do it", "💪🏻", "فقط نام حرکتت را بنویس تا نحوه اجرای آن رو بهت آموزش بدم \n just write the name of your move so i tell you how to do it"];
+let tellMeHowToDoIt = ["اگر نحوه انجام حرکت ورزشی مورد نظر خود را بلد نیستید از داخل منو بخش اموزش حرکات ورزشی میتوانید نحوه انجام ان را ببنید\nif you dont know how to do these move you can go to the menu and choose the option tell me how to do it and see the instruction of the move ", "چجوری این حرکت رو انجام بدم💪🏻|💪🏻tell me how to do it", "💪🏻", "فقط نام حرکتت را بنویس تا نحوه اجرای آن رو بهت آموزش بدم \n just write the name of your move so i tell you how to do it", "چند لحظه صبر کن تا اطلاعات حرکت مورد نظرت رو بهت بدم \n in a few seconds i will send you the move information"];
 let aboutUs = ['درباره ما', 'about us', 'درباره ما | about us'];
 let TextStepsProcessSportProgram = ["لطفا سن خود راانتخاب کنید\nplease choose your age ", "اگر الان نمیخواهید برنامه ورزشی بسازید بر روی دکمه منو بزنید\nif you don't want to create a sport program right now click on the menu button  "]
 let recipe = "نحوه پخت غذایم را آموزش بده 👨‍🍳|👨‍🍳 tell me how to cook";
@@ -56,12 +57,12 @@ bot.on('message', async (msg) => {
                 IsRequestingBloodTest: false,
                 isRequestingChangingFood: false,
                 isRequestingChangingRecipe: false,
-                isCompletingProfile: false,
+                isMakingDiet: false,
                 isInvitingFriend: false,
                 orderingRecipe: false,
                 isRequestingSportProgram: false,
                 finalRequest: false,
-                requestExplainingSportMove : false,
+                requestExplainingSportMove: false,
                 photos: [],
                 lastText: "",
                 preferLanguage: "",
@@ -117,6 +118,25 @@ bot.on('message', async (msg) => {
                 await bot.sendMessage(chatId, wrongPhotoSending);
             }
 
+        } else if (text === makeMeADiet) {
+            await bot.sendMessage(chatId, "🍟");
+            userStates.set(chatId, {
+                ...userState,
+                isMakingDiet: true,
+                tone: "",
+                lastText: ""
+            });
+            await bot.sendMessage(chatId, personalQuestions[0], {
+                reply_markup: {
+                    keyboard: [
+                        [{text: personalQuestions[1]}],
+                        [{text: personalQuestions[2]}],
+                        [{text: mainMenu[2]}]
+                    ],
+                    resize_keyboard: true,
+                    one_time_keyboard: true
+                }
+            });
         } else if (text === mainMenu[2]) {
             userStates.set(chatId, {
                 ...userState,
@@ -126,13 +146,128 @@ bot.on('message', async (msg) => {
                 orderingRecipe: false,
                 isRequestingSportProgram: false,
                 finalRequest: false,
-                requestExplainingSportMove : false,
+                isMakingDiet: false,
+                requestExplainingSportMove: false,
                 photos: []
             });
             await sendCustomMessage(bot, chatId);
+        } else if (userState.isMakingDiet) {
+            if (userState.tone === "") {
+                userStates.set(chatId, {
+                    ...userState,
+                    isMakingDiet: true,
+                    tone: "1",
+                    lastText: "Here are my personal details:\n" +
+                        "\n" +
+                        "- Sex:" + " " + (text === "مرد | male" ? "male" : (text === "زن | female" ? "female" : text)) + " "
+                });
+                let objectKeyboard = [];
+                for (let i = 4; i < 100; i++) {
+                    objectKeyboard[objectKeyboard.length] = [{text: i}];
+                }
+                objectKeyboard[objectKeyboard.length] = [{text: mainMenu[2]}];
+                await bot.sendMessage(chatId, TextStepsProcessSportProgram[0], {
+                    reply_markup: {
+                        keyboard: objectKeyboard,
+                        resize_keyboard: true,
+                        one_time_keyboard: true
+                    }
+                });
+            } else if (userState.tone === "1") {
+                userStates.set(chatId, {
+                    ...userState,
+                    isMakingDiet: true,
+                    tone: "2",
+                    lastText: userState.lastText + "\n" + "- Age: " + text + "\n",
+                });
+                let possibleHeight = [];
+                for (let i = 30; i < 230; i++) {
+                    possibleHeight[possibleHeight.length] = [{text: i + " cm"}];
+                }
+                possibleHeight[possibleHeight.length] = [{text: mainMenu[2]}];
+                await bot.sendMessage(chatId, personalQuestions[4], {
+                    reply_markup: {
+                        keyboard: possibleHeight,
+                        resize_keyboard: true,
+                        one_time_keyboard: true
+                    }
+                });
+            } else if (userState.tone === "2") {
+                userStates.set(chatId, {
+                    ...userState,
+                    isMakingDiet: true,
+                    tone: "3",
+                    lastText: userState.lastText + "- Height: " + text + "\n",
+                });
+                let objectArrayKeyboard = []
+                for (let i = 20; i < 180; i++) {
+                    objectArrayKeyboard[objectArrayKeyboard.length] = [{text: i + " kilo gram"}];
+                }
+                objectArrayKeyboard[objectArrayKeyboard.length] = [{text: mainMenu[2]}]
+                await bot.sendMessage(chatId, personalQuestions[3], {
+                    reply_markup: {
+                        keyboard: objectArrayKeyboard,
+                        resize_keyboard: true,
+                        one_time_keyboard: true
+                    }
+                });
+            } else if (userState.tone === "3") {
+                userStates.set(chatId, {
+                    ...userState,
+                    isMakingDiet: true,
+                    tone: "4",
+                    lastText: userState.lastText + "- Weight: " + text + "\n",
+                });
+                // goalsOfTheDiet
+                await bot.sendMessage(chatId, goalsOfTheDiet[0], {
+                    reply_markup: {
+                        keyboard: [
+                            [{text: goalsOfTheDiet[1]}],
+                            [{text: goalsOfTheDiet[2]}],
+                            [{text: goalsOfTheDiet[3]}],
+                            [{text: mainMenu[2]}]
+                        ],
+                        resize_keyboard: true,
+                        one_time_keyboard: true
+                    }
+                });
+            } else if (userState.tone === "4") {
+                userStates.set(chatId, {
+                    ...userState,
+                    isMakingDiet: true,
+                    tone: "5",
+                    lastText: userState.lastText + "1. Primary Goal:" + (text === "کم کردن وزن | weight loss" ? "weight loss" :
+                        text === "عضله سازی | muscle gain" ? "muscle gain" :
+                            text === "سبک زندگی سالم | healthy life" ? "healthy life" :
+                                text) + "\n",
+                });
+                await bot.sendMessage(chatId, goalsOfTheDiet[4], {
+                    reply_markup: {
+                        keyboard: [
+                            [{text: goalsOfTheDiet[1]}],
+                            [{text: goalsOfTheDiet[2]}],
+                            [{text: goalsOfTheDiet[3]}],
+                            [{text: mainMenu[2]}]
+                        ],
+                        resize_keyboard: true,
+                        one_time_keyboard: true
+                    }
+                });
+            } else if (userState.tone === "5") {
+                userStates.set(chatId, {
+                    ...userState,
+                    isMakingDiet: true,
+                    tone: "6",
+                    lastText: userState.lastText + "1. Secondary Goal:" + (text === "کم کردن وزن | weight loss" ? "weight loss" :
+                        text === "عضله سازی | muscle gain" ? "muscle gain" :
+                            text === "سبک زندگی سالم | healthy life" ? "healthy life" :
+                                text) + "\n",
+                });
+                // the next option should be write by the user
+            }
         } else if (text === createSportProgram) {
             // [{text: joined[2]}]
-            let objectKeyboard = []
+            let objectKeyboard = [];
             for (let i = 4; i < 100; i++) {
                 objectKeyboard[objectKeyboard.length] = [{text: i}];
             }
@@ -381,10 +516,13 @@ Personalization: I will provide you my information and my goal and my limits her
             const object = {
                 message: promptText,
                 idChat: chatId
-            }
+            };
             await handleBotLogic(bot, chatId, object);
-
-
+            // finalRequest
+            await userStates.set(chatId, {
+                ...userState,
+                finalRequest: false
+            });
 
             // await axios.post('http://localhost:3001/gpt4', object)
             //     .then((res) => {
@@ -424,7 +562,7 @@ Personalization: I will provide you my information and my goal and my limits her
                 text: promptBloodTest,
                 images: userState.photos,
                 idChat: chatId
-            }
+            };
             axios.post('http://localhost:3001/gpt4plus', object)
                 .then((res) => {
                     console.log(res.data);
@@ -482,6 +620,31 @@ Personalization: I will provide you my information and my goal and my limits her
         } else if (text === tellMeHowToDoIt[1]) {
             await bot.sendMessage(chatId, tellMeHowToDoIt[2]);
             await bot.sendMessage(chatId, tellMeHowToDoIt[3]);
+            userStates.set(chatId, {
+                ...userState,
+                requestExplainingSportMove: true
+            });
+        } else if (userState.requestExplainingSportMove) {
+            await bot.sendMessage(chatId, tellMeHowToDoIt[4]);
+            await bot.sendMessage(chatId, '🫡');
+            // freeGpt35
+
+
+            const object35 = {
+                message: 'بهم نحوه دقیق اجرای این حرکت ورزشی را با ریز ترین جزیات و به ساده ترین روش ممکن به دو زبان انگلییسی و فارسی توضیح بده حرکت مورد نظر من {' + text + '}',
+                idChat: chatId
+            };
+
+            axios.post('http://localhost:3001/gpt4', object35)
+                .then((res) => {
+                    console.log(res.data);
+                    bot.sendMessage(chatId, res.data, {parse_mode: "Markdown"});
+                    sendCustomMessage(bot, chatId);
+                })
+                .catch((error) => {
+                    console.error('Error sending data to server:', error);
+                });
+
         } else if (text.startsWith('/start')) {
             console.log("this is id " + msg.from.id);
             console.log(msg.text);
@@ -551,12 +714,12 @@ Personalization: I will provide you my information and my goal and my limits her
                 IsRequestingBloodTest: false,
                 isRequestingChangingFood: false,
                 isRequestingChangingRecipe: false,
-                isCompletingProfile: false,
+                isMakingDiet: false,
                 isInvitingFriend: false,
                 orderingRecipe: false,
                 isRequestingSportProgram: false,
                 finalRequest: false,
-                requestExplainingSportMove : false,
+                requestExplainingSportMove: false,
                 photos: [],
                 lastText: "",
                 tone: "",
@@ -615,11 +778,11 @@ Personalization: I will provide you my information and my goal and my limits her
                 IsRequestingBloodTest: true
             });
         } else if (userState.orderingRecipe) {
-            await bot.sendMessage(chatId, "لطفاکمی صبور باشید تا رسپی غذا شما پخته شود|please be patient till the recipe cook")
+            await bot.sendMessage(chatId, "لطفاکمی صبور باشید تا رسپی غذا شما پخته شود|please be patient till the recipe cook");
             const object = {
                 message: `رسپی این غذا را هم به فارسی هم به انگلیسی به اندازه یک نفر بنویس و به صورت کامل و ریز به ریز توضیح بده :غدا مورد نظر [${text}]`,
                 idChat: chatId
-            }
+            };
 
             axios.post('http://localhost:3001/gpt4', object)
                 .then((res) => {
@@ -757,7 +920,7 @@ function splitLongText(text, maxLength = 4096) {
 async function sendLongMessage(bot, chatId, message) {
     const parts = splitLongText(message);
     for (let part of parts) {
-        await bot.sendMessage(chatId, part);
+        await bot.sendMessage(chatId, part, {parse_mode: "Markdown"});
     }
 }
 
