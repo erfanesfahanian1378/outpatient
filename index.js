@@ -6,19 +6,27 @@ let ifItsJoined = false;
 const userStates = new Map();
 const channelUsername = '@outPatientAi';
 const channelUsername2 = '@ProteinTeam';
+const QuestionTrick = ["سوخت و ساز بدن زن و مرد با هم متفاوته برای همین قبل از هر چیزی باید جنسیتت رو بدونیم. 👨‍🦰👱‍\n👨‍🦰👱‍️ The metabolism of men and women is different, so first of all, we need to know your gender."];
 const goalsOfTheDiet = ["هدف اصلی شما از رژیم چیست | whats your primary goal", "کم کردن وزن | weight loss", "عضله سازی | muscle gain", "سبک زندگی سالم | healthy life", "هدف ثانویه شما از رژیم چیست | whats your secondary goal of diet"];
+const cookingPreference = ["ترجیحات رژیمی شما چیست ؟ |?Whats your cuisine preferences", "رژیم مدیترانه‌‌ای | Mediterranean diet", "رژیم کتوژنیک | Ketogenic Diet", "رژیم کم کربوهیدرات | Low-carb Diet", "روزه‌داری متناوب | Intermittent Fasting", "رژیم دیابتی | Diabetes diet", "رژیم سالم عادی | Normal healthy diet", "بدون ترجیحات | No preferences"]
 const joined = ['عضو شدم', 'i joined', 'عضو شدم | i joined'];
+const supplement = ["چه مکمل هایی مصرف میکنید ؟ |?what supplement do you use", "مولتی ویتامین | multivitamin", "شیک پروتئینی | protein shake", "هیچکدام | none"];
+const healthCondition = ["وضعیت سلامتی شما چگونه است ؟ | ?whats your health condition", "دیابت نوع ۱ | diabetes type 1", "دیابت نوع ۲ | diabetes type 2", "فشار خون بالا | high blood pressure", "کبد چرب | fatty liver", "یائسگی | menopause", " کلسترول بالا | high cholesterol", "بیماری قلبی | heart diseases", "کاملا سالم | healthy"];
+const allergy = ["اگر آلرژی خاصی دارید لطفا آن را بنویسد در غیر این صورت بر روی گزینه ندارم کلیک کنید \n if you have a specific allergy you can write it down and if you don't click on i don't ", "ندارم | I don't"];
 let sportClub = ["آیا به باشگاه دسترسی دارید یا میخواهید در خانه تمرین کنید ؟| ?can you go to gym or you prefer training at home", "باشگاه میروم | i can go to gym", "در خانه تمرین میکنم | I prefer workout at home"];
 let mainMenu = ['منو اصلی', 'main menu', 'منو اصلی | main menu'];
+const surprise = "[اگه به برنامه تغذیه ای ما که با استفاده از 🔥🔥هوشمند ترین🔥🔥 برنامه کامپیوتری ایجاد شده پایبند باشی خیلی راحت به وزن ایده آلت میرسی. سایر کاربران به طور متوسط ماهانه 🤯🤩۳🤯🤩 کیلوگرم کاهش وزن دارند.\n\nIf you stick to our diet plan, which is created using the 🔥🔥smartest🔥🔥 computer program, you'll easily reach your ideal weight. Other users lose an average of 🤯🤩3🤯🤩 kilograms per month.\n]";
+let physicalLever = ["سطح فعالیت فیزیکی شما \n Your physical activity level", "بی تحرک | Sedentary", "فعالیت سبک | lightly Active", "فعالیت متوسط | Moderately active", "بسیار فعال | Very Active"];
 let createSportProgram = "برام یک برنامه ورزشی درست کن 💪|💪make me a sport program";
 let disability = ["اگر مشکلات پزشکی یا محدودیت جسمی دارید بر روی دکمه توضیح مشکلات بزنید \n if you have a medical problem or disability please press explain your problem", "توضیح مشکل | explain the problem", "مشکلی ندارم | I dont have problem"]
 let bloodTest = ['ازمایش خون', 'blood test', "آزمایشم را بررسی کن🩸🧪|🩸🧪review my blood test"];
+const foodRegion = ["غذای شما به سبک چه کشوری باشد ؟ |?What country style should your food be", "غذای ایرانی | Persian food", "غذای ایتالیایی | Italian food", "برام مهم نیست | I dont care"];
 let userProfile = ['حساب کاربری شما📖✏️', 'your profile 📖✏️', 'حساب کاربری شما📖✏️ | your profile 📖✏'];
 let tellMeHowToDoIt = ["اگر نحوه انجام حرکت ورزشی مورد نظر خود را بلد نیستید از داخل منو بخش اموزش حرکات ورزشی میتوانید نحوه انجام ان را ببنید\nif you dont know how to do these move you can go to the menu and choose the option tell me how to do it and see the instruction of the move ", "چجوری این حرکت رو انجام بدم💪🏻|💪🏻tell me how to do it", "💪🏻", "فقط نام حرکتت را بنویس تا نحوه اجرای آن رو بهت آموزش بدم \n just write the name of your move so i tell you how to do it", "چند لحظه صبر کن تا اطلاعات حرکت مورد نظرت رو بهت بدم \n in a few seconds i will send you the move information"];
 let aboutUs = ['درباره ما', 'about us', 'درباره ما | about us'];
 let TextStepsProcessSportProgram = ["لطفا سن خود راانتخاب کنید\nplease choose your age ", "اگر الان نمیخواهید برنامه ورزشی بسازید بر روی دکمه منو بزنید\nif you don't want to create a sport program right now click on the menu button  "]
 let recipe = "نحوه پخت غذایم را آموزش بده 👨‍🍳|👨‍🍳 tell me how to cook";
-let bloodTestText = 'لطفا عکس های هر صفحه ازمایش خود را به صورت کاملا واضح و صفحه به صفحه برای ما بفرستید پس از فرستادن هر صفحه از ازمایش در صورت باقی ماندن صفحات دکمه ادامه فرستادن عکس را بزنید \n please sent ous your blood test page by page and after sending each page if theres more click on continue sending'
+let bloodTestText = 'لطفا عکس های هر صفحه ازمایش خود را به صورت کاملا واضح و صفحه به صفحه برای ما بفرستید پس از فرستادن هر صفحه از ازمایش در صورت باقی ماندن صفحات دکمه ادامه فرستادن عکس را بزنید. ⚠️⚠️⚠️اگر عکس ها به صورت کاملا واضح فرستاده نشوند احتمال اشتباه ربات بسیار زیاد است. ⚠️⚠️⚠️\n please sent ous your blood test page by page and after sending each page if theres more click on continue sending ⚠️⚠️⚠️if you dont send clear photo the bot may make mistake⚠️⚠️⚠️ / '
 let optionBloodTest = ["ادامه فرستادن عکس | continue sending", "نتیجه آزمایش | the final result"];
 let recipeText = "لطفا نام غذای مورد نظرتان را بنویسید 🌭|🌭 please write the name of your food";
 let hours = "چند ساعت در هفته میتوانید برای برنامه تمرینی وقت بگذارید\n How much time can you devote to exercise per week?"
@@ -72,7 +80,25 @@ bot.on('message', async (msg) => {
             userStates.set(chatId, userState);
         }
 
-        if (msg.photo && msg.photo.length > 0) {
+        if (msg.document || msg.voice) {
+            console.log("It's here - received a document or voice message");
+            // Optionally, send a message back to the user indicating the unsupported file type
+            await bot.sendMessage(chatId, "لطفا اگر در حال فرستادن آزمایش خود هستید هر صفحه را به صورت عکس به ترتیب بفرستید و پس از فرستادن هر عکس منتظر جواب ربات برای فرستادن عکس بعدی باشید");
+            await bot.sendMessage(chatId, "if you are sending data for your blood test please send image of each page and wait for the response of the robot to send other images");
+            userStates.set(chatId, {
+                ...userState,
+                lastText: "",
+                tone: "",
+                IsRequestingBloodTest: false,
+                orderingRecipe: false,
+                isRequestingSportProgram: false,
+                finalRequest: false,
+                isMakingDiet: false,
+                requestExplainingSportMove: false,
+                photos: []
+            });
+            await sendCustomMessage(bot, chatId);
+        } else if (msg.photo && msg.photo.length > 0) {
             if (userState.IsRequestingBloodTest) {
                 // Get the highest resolution photo
                 const fileId = msg.photo[msg.photo.length - 1].file_id;
@@ -126,7 +152,7 @@ bot.on('message', async (msg) => {
                 tone: "",
                 lastText: ""
             });
-            await bot.sendMessage(chatId, personalQuestions[0], {
+            await bot.sendMessage(chatId, QuestionTrick[0], {
                 reply_markup: {
                     keyboard: [
                         [{text: personalQuestions[1]}],
@@ -157,9 +183,7 @@ bot.on('message', async (msg) => {
                     ...userState,
                     isMakingDiet: true,
                     tone: "1",
-                    lastText: "Here are my personal details:\n" +
-                        "\n" +
-                        "- Sex:" + " " + (text === "مرد | male" ? "male" : (text === "زن | female" ? "female" : text)) + " "
+                    lastText: "I am a : " + (text === "مرد | male" ? "male" : (text === "زن | female" ? "female" : text)) + " and have "
                 });
                 let objectKeyboard = [];
                 for (let i = 4; i < 100; i++) {
@@ -178,7 +202,7 @@ bot.on('message', async (msg) => {
                     ...userState,
                     isMakingDiet: true,
                     tone: "2",
-                    lastText: userState.lastText + "\n" + "- Age: " + text + "\n",
+                    lastText: userState.lastText + text + " years old with the ",
                 });
                 let possibleHeight = [];
                 for (let i = 30; i < 230; i++) {
@@ -197,7 +221,7 @@ bot.on('message', async (msg) => {
                     ...userState,
                     isMakingDiet: true,
                     tone: "3",
-                    lastText: userState.lastText + "- Height: " + text + "\n",
+                    lastText: userState.lastText + text + " height and also my weight is ",
                 });
                 let objectArrayKeyboard = []
                 for (let i = 20; i < 180; i++) {
@@ -216,7 +240,7 @@ bot.on('message', async (msg) => {
                     ...userState,
                     isMakingDiet: true,
                     tone: "4",
-                    lastText: userState.lastText + "- Weight: " + text + "\n",
+                    lastText: userState.lastText + text + " ,I'm seeking a highly customized weekly diet plan aimed at achieving a ",
                 });
                 // goalsOfTheDiet
                 await bot.sendMessage(chatId, goalsOfTheDiet[0], {
@@ -236,10 +260,10 @@ bot.on('message', async (msg) => {
                     ...userState,
                     isMakingDiet: true,
                     tone: "5",
-                    lastText: userState.lastText + "1. Primary Goal:" + (text === "کم کردن وزن | weight loss" ? "weight loss" :
+                    lastText: userState.lastText + (text === "کم کردن وزن | weight loss" ? "weight loss" :
                         text === "عضله سازی | muscle gain" ? "muscle gain" :
                             text === "سبک زندگی سالم | healthy life" ? "healthy life" :
-                                text) + "\n",
+                                text) + " ,while also supporting a ",
                 });
                 await bot.sendMessage(chatId, goalsOfTheDiet[4], {
                     reply_markup: {
@@ -258,12 +282,219 @@ bot.on('message', async (msg) => {
                     ...userState,
                     isMakingDiet: true,
                     tone: "6",
-                    lastText: userState.lastText + "1. Secondary Goal:" + (text === "کم کردن وزن | weight loss" ? "weight loss" :
+                    lastText: userState.lastText + (text === "کم کردن وزن | weight loss" ? "weight loss" :
                         text === "عضله سازی | muscle gain" ? "muscle gain" :
                             text === "سبک زندگی سالم | healthy life" ? "healthy life" :
-                                text) + "\n",
+                                text) + " ",
                 });
-                // the next option should be write by the user
+                // the next option should be written by the user
+                await bot.sendMessage(chatId, allergy[0], {
+                    reply_markup: {
+                        keyboard: [
+                            [{text: allergy[1]}],
+                            [{text: mainMenu[2]}]
+                        ],
+                        resize_keyboard: true,
+                        one_time_keyboard: true
+                    }
+                });
+            } else if (userState.tone === "6") {
+                userStates.set(chatId, {
+                    ...userState,
+                    isMakingDiet: true,
+                    tone: "7",
+                    lastText: userState.lastText + (text === "ندارم | I don't" ? "I don't have allergic" : text) + " allergy" + ". I engage in ",
+                });
+                // physicalLever
+                await bot.sendMessage(chatId, physicalLever[0], {
+                    reply_markup: {
+                        keyboard: [
+                            [{text: physicalLever[1]}],
+                            [{text: physicalLever[2]}],
+                            [{text: physicalLever[3]}],
+                            [{text: physicalLever[4]}],
+                            [{text: mainMenu[2]}]
+                        ],
+                        resize_keyboard: true,
+                        one_time_keyboard: true
+                    }
+                });
+            } else if (userState.tone === "7") {
+                userStates.set(chatId, {
+                    ...userState,
+                    isMakingDiet: true,
+                    tone: "8",
+                    lastText: userState.lastText +
+                        (text === "بی تحرک | Sedentary" ? "Sedentary" :
+                            text === "فعالیت سبک | lightly Active" ? "lightly Active" :
+                                text === "فعالیت متوسط | Moderately active" ? "Moderately active" :
+                                    text === "بسیار فعال | Very Active" ? "Very Active" : text) + "level of activity per week. I adhere to ",
+                });
+                await bot.sendMessage(chatId, cookingPreference[0], {
+                    reply_markup: {
+                        keyboard: [
+                            [{text: cookingPreference[6]}],
+                            [{text: cookingPreference[7]}],
+                            [{text: mainMenu[2]}]
+                        ],
+                        resize_keyboard: true,
+                        one_time_keyboard: true
+                    }
+                });
+            } else if (userState.tone === "8") {
+                const dietTranslations = {
+                    "رژیم مدیترانه‌‌ای | Mediterranean diet": "Mediterranean diet",
+                    "رژیم کتوژنیک | Ketogenic Diet": "Ketogenic Diet",
+                    "رژیم کم کربوهیدرات | Low-carb Diet": "Low-carb Diet",
+                    "روزه‌داری متناوب | Intermittent Fasting": "Intermittent Fasting",
+                    "رژیم دیابتی | Diabetes diet": "Diabetes diet",
+                    "رژیم سالم عادی | Normal healthy diet": "No preferences",
+                    "بدون ترجیحات | No preferences": "No preferences"
+                };
+                const translatedDiet = dietTranslations[text] || text;
+                userStates.set(chatId, {
+                    ...userState,
+                    isMakingDiet: true,
+                    tone: "9",
+                    lastText: userState.lastText + translatedDiet,
+                });
+                await bot.sendMessage(chatId, supplement[0], {
+                    reply_markup: {
+                        keyboard: [
+                            [{text: supplement[1]}],
+                            [{text: supplement[2]}],
+                            [{text: supplement[3]}],
+                            [{text: mainMenu[2]}]
+                        ],
+                        resize_keyboard: true,
+                        one_time_keyboard: true
+                    }
+                });
+            } else if (userState.tone === "9") {
+                const dietTranslations = {
+                    "شیک پروتئینی | protein shake": ". For supplements, I take a protein shake ",
+                    "مولتی ویتامین | multivitamin": ". For supplements, I take a multivitamin ",
+                    "هیچکدام | none": ""
+                };
+                const translatedDiet = dietTranslations[text] || text;
+                userStates.set(chatId, {
+                    ...userState,
+                    isMakingDiet: true,
+                    tone: "10",
+                    lastText: userState.lastText + translatedDiet,
+                });
+                await bot.sendMessage(chatId, healthCondition[0], {
+                    reply_markup: {
+                        keyboard: [
+                            [{text: healthCondition[1]}],
+                            [{text: healthCondition[2]}],
+                            [{text: healthCondition[3]}],
+                            [{text: healthCondition[4]}],
+                            [{text: healthCondition[5]}],
+                            [{text: healthCondition[6]}],
+                            [{text: healthCondition[7]}],
+                            [{text: healthCondition[8]}],
+                            [{text: mainMenu[2]}]
+                        ],
+                        resize_keyboard: true,
+                        one_time_keyboard: true
+                    }
+                });
+            } else if (userState.tone === "10") {
+                // "دیابت نوع ۱ | diabetes type 1", "دیابت نوع ۲ | diabetes type 2", "فشار خون بالا | high blood pressure", "کبد چرب | fatty liver", "یائسگی | menopause" , " کلسترول بالا | high cholesterol" , "بیماری قلبی | heart diseases" , "کاملا سالم | healthy"
+                const dietTranslations = {
+                    "کاملا سالم | healthy": " Considering that i'm completely healthy",
+                    "بیماری قلبی | heart diseases": " Considering my heart diseases problem",
+                    " کلسترول بالا | high cholesterol": " Considering my high cholesterol problem",
+                    "یائسگی | menopause": "Considering my high menopause problem",
+                    "کبد چرب | fatty liver": "Considering my high fatty liver problem",
+                    "فشار خون بالا | high blood pressure": "Considering my high blood pressure problem",
+                    "دیابت نوع ۲ | diabetes type 2": "Considering my diabetes type 2 problem",
+                    "دیابت نوع ۱ | diabetes type 1": "Considering my diabetes type 1 problem"
+                };
+                const translatedDiet = dietTranslations[text] || text;
+                userStates.set(chatId, {
+                    ...userState,
+                    isMakingDiet: true,
+                    tone: "11",
+                    lastText: userState.lastText + translatedDiet,
+                });
+                let hoursActivity = [];
+                for (let i = 1; i < 40; i++) {
+                    hoursActivity[hoursActivity.length] = [{text: i + "hours"}]
+                }
+                hoursActivity[hoursActivity.length] = [{text: mainMenu[2]}];
+
+                await bot.sendMessage(chatId, hours, {
+                    reply_markup: {
+                        keyboard: hoursActivity,
+                        resize_keyboard: true,
+                        one_time_keyboard: true
+                    }
+                })
+            } else if (userState.tone === "11") {
+                userStates.set(chatId, {
+                    ...userState,
+                    isMakingDiet: true,
+                    tone: "12",
+                    lastText: userState.lastText + "and the amount of time I can devote to sports is " + text + "  per week." + " meals should be balanced to manage blood sugar levels. My weekly food budget is moderate, and while I have access to a wide range of grocery stores, seasonal and local produce is preferred to ensure freshness.",
+                });
+                await bot.sendMessage(chatId, foodRegion[0], {
+                    reply_markup: {
+                        keyboard: [
+                            [{text: foodRegion[1]}],
+                            [{text: foodRegion[2]}],
+                            [{text: mainMenu[2]}],
+                        ],
+                        resize_keyboard: true,
+                        one_time_keyboard: true
+                    }
+                })
+            } else if (userState.tone === "12") {
+                // "غذای ایرانی | Persian food", "غذای ایتالیایی | Italian food", "برام مهم نیست | I dont care"];
+                let translatedDiet = ""
+                if (text === foodRegion[1]) {
+                    translatedDiet = "I prefer meals be Persian food";
+                } else if (text === foodRegion[2]) {
+                    translatedDiet = "I prefer meals be Italian food";
+                } else if (text === foodRegion[3]) {
+                    translatedDiet = "";
+                }
+                console.log(translatedDiet);
+                userStates.set(chatId, {
+                    ...userState,
+                    isMakingDiet: true,
+                    tone: "13",
+                    lastText: "Please create a 7 days diet for me and explain every meal and snacks for me try that every day be different from each other day and I want you to explain every day meals and snacks very much and explain it completely and i want to know the calorie of every meals and snacks " + translatedDiet + " here it is my information :  " + userState.lastText
+                });
+                let possibleHeight = [];
+                for (let i = 30; i < 230; i++) {
+                    possibleHeight[possibleHeight.length] = [{text: i + " kg"}];
+                }
+                possibleHeight[possibleHeight.length] = [{text: mainMenu[2]}];
+                await bot.sendMessage(chatId, "🫵🔥" + "برای ساخت رژیمت قدم نهایی اینه که وزن مورد علاقت تو ذهنت رو بهم بگی تا شخصی سازی ترین رژیم رو برات بسازیم \n \n \n Please give me your goal wight so i create the best diet for you " + "🫵🔥", {
+                    reply_markup: {
+                        keyboard: possibleHeight,
+                        resize_keyboard: true,
+                        one_time_keyboard: true
+                    }
+                });
+            } else if (userState.tone === "13") {
+                await bot.sendMessage(chatId, `${name} عزیز در حال ساخت رژیمتم`);
+                await bot.sendMessage(chatId, `dear ${name} I'm creating your diet`);
+                console.log(userState);
+
+                const object = {
+                    message: "The most important thing is that i need to have plan for every day with full explanation" + userState.lastText,
+                    idChat: chatId
+                };
+                await bot.sendMessage(chatId, surprise);
+                await handleBotLogicDiet(bot, chatId, object);
+                await userStates.set(chatId, {
+                    ...userState,
+                    isMakingDiet: false
+                });
+
             }
         } else if (text === createSportProgram) {
             // [{text: joined[2]}]
@@ -937,7 +1168,7 @@ async function handleBotLogic(bot, chatId, object) {
 
 
         // Notify user about waiting for the Persian translation
-        await bot.sendMessage(chatId, "چند دقیقه صبر کنید نسخه فارسیش رو هم بهت تحویل میدم|please wait for the Persian result");
+        await bot.sendMessage(chatId, "چند دقیقه صبر کنید نسخه فارسیش رو هم بهت تحویل میدم\nplease wait for the Persian result");
         await bot.sendMessage(chatId, "😉");
 
         // Prepare and send the request for translation
@@ -946,6 +1177,40 @@ async function handleBotLogic(bot, chatId, object) {
             idChat: chatId
         };
         res = await axios.post('http://localhost:3001/gpt4', object2);
+        console.log(res.data);
+        await bot.sendMessage(chatId, tellMeHowToDoIt[0]);
+
+        // Send the translated response
+        await sendLongMessage(bot, chatId, res.data);
+        await sendCustomMessage(bot, chatId);
+    } catch (error) {
+        console.error('Error:', error);
+        await bot.sendMessage(chatId, "Sorry, there was an error processing your request.");
+    }
+}
+
+
+async function handleBotLogicDiet(bot, chatId, object) {
+
+    try {
+        // Send request to your API and get the initial response
+        let res = await axios.post('http://localhost:3001/gpt4Low', object);
+        console.log(res.data);
+
+        // Send the initial long response
+        await sendLongMessage(bot, chatId, res.data);
+
+
+        // Notify user about waiting for the Persian translation
+        await bot.sendMessage(chatId, "چند دقیقه صبر کنید نسخه فارسیش رو هم بهت تحویل میدم\nplease wait for the Persian result");
+        await bot.sendMessage(chatId, "😉");
+
+        // Prepare and send the request for translation
+        const object2 = {
+            message: "این متن رو به صورت دقیق و کامل به فارسی ترجمه کن بدون این که قسمتی جا به ماند خیلی مهم است که به صورت کامل ترجمه شود" + "[" + res.data + "]",
+            idChat: chatId
+        };
+        res = await axios.post('http://localhost:3001/gpt4Low', object2);
         console.log(res.data);
         await bot.sendMessage(chatId, tellMeHowToDoIt[0]);
 
