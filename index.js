@@ -6,10 +6,14 @@ let ifItsJoined = false;
 const userStates = new Map();
 const channelUsername = '@outPatientAi';
 const channelUsername2 = '@ProteinTeam';
+const messageChargeOption1 = "شارژ حساب کاربری | Charge your account";
+const messageChargeByInvite = 'استفاده مجدد از ربات با دعوت دوستان\ninvite friends to get free subscription';
 const QuestionTrick = ["سوخت و ساز بدن زن و مرد با هم متفاوته برای همین قبل از هر چیزی باید جنسیتت رو بدونیم. 👨‍🦰👱‍\n👨‍🦰👱‍️ The metabolism of men and women is different, so first of all, we need to know your gender."];
 const goalsOfTheDiet = ["هدف اصلی شما از رژیم چیست | whats your primary goal", "کم کردن وزن | weight loss", "عضله سازی | muscle gain", "سبک زندگی سالم | healthy life", "هدف ثانویه شما از رژیم چیست | whats your secondary goal of diet"];
 const cookingPreference = ["ترجیحات رژیمی شما چیست ؟ |?Whats your cuisine preferences", "رژیم مدیترانه‌‌ای | Mediterranean diet", "رژیم کتوژنیک | Ketogenic Diet", "رژیم کم کربوهیدرات | Low-carb Diet", "روزه‌داری متناوب | Intermittent Fasting", "رژیم دیابتی | Diabetes diet", "رژیم سالم عادی | Normal healthy diet", "بدون ترجیحات | No preferences"]
 const joined = ['عضو شدم', 'i joined', 'عضو شدم | i joined'];
+let successInvite = "به حساب شما دسترسی مجدد به ربات داده شد";
+let inviteAlert = 'پروتئینی عزیز باید حداقل ۲ نفر از دوستانت را با استفاده از لینک زیر به ربات ما دعوت کنی  | you should at least invite two people to get free subscription';
 const supplement = ["چه مکمل هایی مصرف میکنید ؟ |?what supplement do you use", "مولتی ویتامین | multivitamin", "شیک پروتئینی | protein shake", "هیچکدام | none"];
 const healthCondition = ["وضعیت سلامتی شما چگونه است ؟ | ?whats your health condition", "دیابت نوع ۱ | diabetes type 1", "دیابت نوع ۲ | diabetes type 2", "فشار خون بالا | high blood pressure", "کبد چرب | fatty liver", "یائسگی | menopause", " کلسترول بالا | high cholesterol", "بیماری قلبی | heart diseases", "کاملا سالم | healthy"];
 const allergy = ["اگر آلرژی خاصی دارید لطفا آن را بنویسد در غیر این صورت بر روی گزینه ندارم کلیک کنید \n if you have a specific allergy you can write it down and if you don't click on i don't ", "ندارم | I don't"];
@@ -21,7 +25,7 @@ let createSportProgram = "برام یک برنامه ورزشی درست کن �
 let disability = ["اگر مشکلات پزشکی یا محدودیت جسمی دارید بر روی دکمه توضیح مشکلات بزنید \n if you have a medical problem or disability please press explain your problem", "توضیح مشکل | explain the problem", "مشکلی ندارم | I dont have problem"]
 let bloodTest = ['ازمایش خون', 'blood test', "آزمایشم را بررسی کن🩸🧪|🩸🧪review my blood test"];
 const foodRegion = ["غذای شما به سبک چه کشوری باشد ؟ |?What country style should your food be", "غذای ایرانی | Persian food", "غذای ایتالیایی | Italian food", "برام مهم نیست | I dont care"];
-let userProfile = ['حساب کاربری شما📖✏️', 'your profile 📖✏️', 'حساب کاربری شما📖✏️ | your profile 📖✏'];
+let userProfile = ['حساب کاربری شما📖✏️', 'your profile 📖✏️', 'حساب کاربری شما📖✏|📖✏your profile'];
 let tellMeHowToDoIt = ["اگر نحوه انجام حرکت ورزشی مورد نظر خود را بلد نیستید از داخل منو بخش اموزش حرکات ورزشی میتوانید نحوه انجام ان را ببنید\nif you dont know how to do these move you can go to the menu and choose the option tell me how to do it and see the instruction of the move ", "چجوری این حرکت رو انجام بدم💪🏻|💪🏻tell me how to do it", "💪🏻", "فقط نام حرکتت را بنویس تا نحوه اجرای آن رو بهت آموزش بدم \n just write the name of your move so i tell you how to do it", "چند لحظه صبر کن تا اطلاعات حرکت مورد نظرت رو بهت بدم \n in a few seconds i will send you the move information"];
 let aboutUs = ['درباره ما', 'about us', 'درباره ما | about us'];
 let TextStepsProcessSportProgram = ["لطفا سن خود راانتخاب کنید\nplease choose your age ", "اگر الان نمیخواهید برنامه ورزشی بسازید بر روی دکمه منو بزنید\nif you don't want to create a sport program right now click on the menu button  "]
@@ -29,7 +33,8 @@ let recipe = "نحوه پخت غذایم را آموزش بده 👨‍🍳|👨
 let bloodTestText = 'لطفا عکس های هر صفحه ازمایش خود را به صورت کاملا واضح و صفحه به صفحه برای ما بفرستید پس از فرستادن هر صفحه از ازمایش در صورت باقی ماندن صفحات دکمه ادامه فرستادن عکس را بزنید. ⚠️⚠️⚠️اگر عکس ها به صورت کاملا واضح فرستاده نشوند احتمال اشتباه ربات بسیار زیاد است. ⚠️⚠️⚠️\n please sent ous your blood test page by page and after sending each page if theres more click on continue sending ⚠️⚠️⚠️if you dont send clear photo the bot may make mistake⚠️⚠️⚠️ / '
 let optionBloodTest = ["ادامه فرستادن عکس | continue sending", "نتیجه آزمایش | the final result"];
 let recipeText = "لطفا نام غذای مورد نظرتان را بنویسید 🌭|🌭 please write the name of your food";
-let hours = "چند ساعت در هفته میتوانید برای برنامه تمرینی وقت بگذارید\n How much time can you devote to exercise per week?"
+let hours = "چند ساعت در هفته میتوانید برای برنامه تمرینی وقت بگذارید\n How much time can you devote to exercise per week?";
+let plansMessage = "";
 let goalOfActivity = ["هدف ورزشی شما چیست؟ 🏹|🏹 ?whats your goal", "وزن کم کنید | lower your weight", "عضله سازی کنید | build muscle", "استقامت خود را افزایش دهید | Increase your stamina"];
 let levelOfActivity = ["سطح فعلی فعالیت شما به چه اندازه است | Whats the level of your activity right now", "تازه کار هستید | newcomer", "سطح متوسطی دارید | Moderate activity level", "ورزشکار حرفه ای هستید | your professional athlete"]
 let personalQuestions = ["حنسیت خود را مشخص کنید | please choose your sexuality", "مرد | male", "زن | female", "وزن شما چند کیلوگرم است | whats your weight", "قد شما چند است | whats your heights"];
@@ -59,6 +64,32 @@ bot.on('message', async (msg) => {
         let persian = "درود بر " + name;
         let english = "welcome " + name;
         let welcomeMessage = [persian, english];
+        plansMessage = `سلام ${name} عزیز! 🌈
+خوشحالیم که می‌خوای با ما همراه باشی. برای شارژ حساب کاربریت و استفاده از 3 درخواست از ربات، فقط کافیه 69 هزار تومان به شماره کارت زیر واریز کنی و فیش پرداختی رو برامون ارسال کنی. 😊💳
+شماره کارت: 🏦
+5054 1610 1394 1236
+نام صاحب کارت: ✨
+عرفان اصفهانیان
+به محض اینکه فیش پرداختی رو به اکانت زیر در تلگرام بفرستی، حساب کاربریت شارژ می‌شه. ⏰🚀
+@nothingtoexplaintoyou
+اگر خارج از ایران هستی و دوست داری از ربات ما استفاده کنی، لطفاً به آیدی زیر پیام بده تا روش‌های پرداخت بین‌المللی رو برات توضیح بدیم. 🌍💬
+برای اطلاعات بیشتر پیام بده:
+@nothingtoexplaintoyou
+مرسی که پروتئینی  هستی!  🎉💐
+
+Hello dear ${name}! 🌈
+
+We're thrilled that you want to join us. To recharge your user account and enjoy 3 requests, you just need to transfer 1.2 Euro to the following IBAN number and send us the payment receipt. 😊💳
+
+IBAN Number:
+LT023250069833288118
+
+As soon as you send the payment slip to our account on Telegram, your user account will be charged within a maximum of one hour. ⏰🚀
+@nothingtoexplaintoyou
+
+Thank you for being awesome! 🎉💐`;
+
+
         let userState = userStates.get(chatId);
         if (!userState) {
             userState = {
@@ -788,66 +819,86 @@ Personalization: I will provide you my information and my goal and my limits her
                 IsRequestingBloodTest: true
             });
         } else if (text === optionBloodTest[1]) {
-            await bot.sendMessage(chatId, dualLanguageResult);
-            const object = {
-                text: promptBloodTest,
-                images: userState.photos,
-                idChat: chatId
-            };
-            axios.post('http://localhost:3001/gpt4plus', object)
-                .then((res) => {
-                    console.log(res.data);
-                    // bot.sendMessage(chatId, bloodTestPersianAndEnglishAlert[0]);
-                    // bot.sendMessage(chatId, res.data.choices[0].message.content);
-                    // bot.sendMessage(chatId, bloodTestPersianAndEnglishAlert[1]);
-                    // bot.sendMessage(chatId, '🤓');
 
 
-                    bot.sendMessage(chatId, bloodTestPersianAndEnglishAlert[0])
-                        .then(() => {
-                            return bot.sendMessage(chatId, res.data.choices[0].message.content);
-                        })
-                        .then(() => {
-                            return bot.sendMessage(chatId, bloodTestPersianAndEnglishAlert[1]);
-                        })
-                        .then(() => {
-                            return bot.sendMessage(chatId, '🤓');
-                        })
-                        .catch((error) => {
-                            console.error('Error sending messages:', error);
-                        });
+            try {
+                let res = await axios.get('http://localhost:3001/isUserValid?idChat=' + chatId);
+                if (res.data.message === "its valid") {
+                    console.log("The user has subscription");
 
 
-                    let object2 = {
-                        text: res.data.choices[0].message.content,
-                        destinationLanguage: "Persian",
+                    await bot.sendMessage(chatId, dualLanguageResult);
+                    const object = {
+                        text: promptBloodTest,
+                        images: userState.photos,
                         idChat: chatId
-                    }
-                    axios.post('http://localhost:3001/translateApiLanguage', object2)
+                    };
+                    axios.post('http://localhost:3001/gpt4plus', object)
                         .then((res) => {
                             console.log(res.data);
-                            bot.sendMessage(chatId, bloodTestPersianAndEnglishAlert[2])
+                            bot.sendMessage(chatId, bloodTestPersianAndEnglishAlert[0])
                                 .then(() => {
-                                    return bot.sendMessage(chatId, res.data);
+                                    return bot.sendMessage(chatId, res.data.choices[0].message.content);
                                 })
                                 .then(() => {
-                                    return sendCustomMessage(bot, chatId);
+                                    return bot.sendMessage(chatId, bloodTestPersianAndEnglishAlert[1]);
+                                })
+                                .then(() => {
+                                    return bot.sendMessage(chatId, '🤓');
                                 })
                                 .catch((error) => {
                                     console.error('Error sending messages:', error);
                                 });
-                            userStates.set(chatId, {
-                                ...userState,
-                                photos: []
-                            });
+
+
+                            let object2 = {
+                                text: res.data.choices[0].message.content,
+                                destinationLanguage: "Persian",
+                                idChat: chatId
+                            }
+                            axios.post('http://localhost:3001/translateApiLanguage', object2)
+                                .then((res) => {
+                                    console.log(res.data);
+                                    bot.sendMessage(chatId, bloodTestPersianAndEnglishAlert[2])
+                                        .then(() => {
+                                            return bot.sendMessage(chatId, res.data);
+                                        })
+                                        .then(() => {
+                                            return sendCustomMessage(bot, chatId);
+                                        })
+                                        .catch((error) => {
+                                            console.error('Error sending messages:', error);
+                                        });
+                                    userStates.set(chatId, {
+                                        ...userState,
+                                        photos: []
+                                    });
+                                })
+                                .catch((error) => {
+                                    console.error('Error sending data to server:', error);
+                                });
                         })
                         .catch((error) => {
                             console.error('Error sending data to server:', error);
                         });
-                })
-                .catch((error) => {
-                    console.error('Error sending data to server:', error);
-                });
+                } else {
+                    await bot.sendMessage(chatId, "متاسفانه شارژ حساب کاربری شما تمام شده یا شارژ کنید یا از دوستانتان دعوت کنید \n your account need charge please charge it or invite your friends", {
+                        reply_markup: {
+                            keyboard: [
+                                [{text: messageChargeOption1}],
+                                [{text: messageChargeByInvite}],
+                                [{text: mainMenu[2]}],
+                            ],
+                            resize_keyboard: true,
+                            one_time_keyboard: true
+                        }
+                    });
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                await bot.sendMessage(chatId, "Sorry, there was an error processing your request.");
+            }
+
         } else if (text === tellMeHowToDoIt[1]) {
             await bot.sendMessage(chatId, tellMeHowToDoIt[2]);
             await bot.sendMessage(chatId, tellMeHowToDoIt[3]);
@@ -876,6 +927,90 @@ Personalization: I will provide you my information and my goal and my limits her
                     console.error('Error sending data to server:', error);
                 });
 
+        } else if (text === 'حساب کاربری شما📖✏|📖✏your profile') {
+            console.log("here");
+            let textProfile = "";
+            try {
+                const url = 'http://localhost:3001/messages?idChat=' + chatId;
+                const response = await axios.get(url);
+                console.log(response.data[0]);
+                let ProteinTeam = response.data[0].name; // Assuming this is how you get the team's name
+
+
+                textProfile = `سلام ${ProteinTeam} عزیز
+
+وضعیت اشتراک های شما در محصولات پروتئین:
+🟣 تعداد دفعات مجاز برای استفاده از ربات سرپایی💉 : ${response.data[0].tokenBloodTest} بار
+
+🟢 تعداد دفعات مجاز برای استفاده از ربات کوردرا 🌉 : ${response.data[0].tokenDallE} بار @AiImageLogoCreator_bot 
+
+🔵 تعداد دفعات مجاز برای استفاده از ربات درگوشی🖋 : ${response.data[0].tokenTextGenerator} بار @chatterproteinai_bot 
+
+🟠 تعداد دفعات مجاز برای استفاده از ربات فیلم یاب🎥 : ${response.data[0].tokenFilmYab} بار
+
+🔴 تعداد دفعات مجاز برای استفاده از ربات ریاضی دان🎒 : ${response.data[0].tokenMath} بار
+
+🔶 موجودی حساب کاربری شما💰💸 : 🟣 تعداد دفعات مجاز برای استفاده از ربات دکتر و ازمایش خوان💉 : ${response.data[0].universalWallet} تومان
+
+📣 اگر دوست داری کلی از ربات کوردرا، رایگان استفاده کنی فقط کافیه 2 نفر از دوستانت را عضو کنی🤩🔥
+
+Dear ${ProteinTeam},
+
+Here's the status of your subscriptions for Protein products:
+
+🟣 Allowed uses for the outpatient Bot 💉: ${response.data[0].tokenBloodTest} times
+
+🟢 Allowed uses for Cordraw Bot 🌉: ${response.data[0].tokenDallE} times @AiImageLogoCreator_bot
+
+🔵 Allowed uses for Chatter Bot 🖋: ${response.data[0].tokenTextGenerator} times  @chatterproteinai_bot
+
+🟠 Allowed uses for the Film Finder Bot 🎥: ${response.data[0].tokenFilmYab} times
+
+🔴 Allowed uses for the Math Wizard Bot 🎒: ${response.data[0].tokenMath} times
+
+🔶 Your account balance 💰💸: ${response.data[0].universalWallet} Euros
+
+📣 If you'd like to use all of Protein Bots for free, just invite 2 friends to join!🔥🤩`;
+
+
+                await bot.sendMessage(chatId, textProfile, {
+                    reply_markup: {
+                        keyboard: [
+                            [{text: messageChargeOption1}],
+                            [{text: messageChargeByInvite}],
+                            [{text: mainMenu[2]}],
+                        ],
+                        resize_keyboard: true,
+                        one_time_keyboard: true
+                    }
+                });
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                await bot.sendMessage(chatId, 'خطا پیش آمده ');
+            }
+        } else if (text === messageChargeOption1) {
+            await bot.sendMessage(chatId, plansMessage);
+            await sendCustomMessage(bot, chatId);
+        }  else if (text === messageChargeByInvite) {
+            let inviteCompletedOrNot = false;
+            try {
+                await axios.get('http://localhost:3001/inviteBlood?idChat=' + msg.from.id);
+                inviteCompletedOrNot = true;
+                console.log("checkCompleted");
+            } catch (error) {
+                console.log("WEEEEEEEEEEEEEEEE");
+                console.error('Error sending data to server:', error);
+            }
+            if (inviteCompletedOrNot) {
+                await bot.sendMessage(chatId, successInvite);
+                await sendCustomMessage(bot, chatId);
+            } else {
+                await bot.sendMessage(chatId, inviteAlert);
+                const referralLink = `https://t.me/outPtient_bot?start=${msg.from.id}`;
+                // Send the referral link with the message in Persian
+                await bot.sendMessage(chatId, `از دوستانت دعوت کن: ${referralLink}` + "\ninvite your friends with this link");
+                await sendCustomMessage(bot, chatId);
+            }
         } else if (text.startsWith('/start')) {
             console.log("this is id " + msg.from.id);
             console.log(msg.text);
@@ -1009,7 +1144,7 @@ Personalization: I will provide you my information and my goal and my limits her
                 IsRequestingBloodTest: true
             });
         } else if (userState.orderingRecipe) {
-            await bot.sendMessage(chatId, "لطفاکمی صبور باشید تا رسپی غذا شما پخته شود|please be patient till the recipe cook");
+            await bot.sendMessage(chatId, "لطفاکمی صبور باشید تا رسپی غذا شما پخته شود\nplease be patient till the recipe cook");
             const object = {
                 message: `رسپی این غذا را هم به فارسی هم به انگلیسی به اندازه یک نفر بنویس و به صورت کامل و ریز به ریز توضیح بده :غدا مورد نظر [${text}]`,
                 idChat: chatId
@@ -1157,36 +1292,60 @@ async function sendLongMessage(bot, chatId, message) {
 
 // Example async function to handle the logic
 async function handleBotLogic(bot, chatId, object) {
+
     try {
-        // Send request to your API and get the initial response
-        let res = await axios.post('http://localhost:3001/gpt4', object);
-        console.log(res.data);
+        let res = await axios.get('http://localhost:3001/isUserValid?idChat=' + chatId);
+        if (res.data.message === "its valid") {
+            console.log("The user has subscription");
+            try {
+                // Send request to your API and get the initial response
+                let res = await axios.post('http://localhost:3001/gpt4', object);
+                console.log(res.data);
 
-        // Send the initial long response
-        await sendLongMessage(bot, chatId, res.data);
-        await bot.sendMessage(chatId, tellMeHowToDoIt[0]);
+                // Send the initial long response
+                await sendLongMessage(bot, chatId, res.data);
+                await bot.sendMessage(chatId, tellMeHowToDoIt[0]);
 
 
-        // Notify user about waiting for the Persian translation
-        await bot.sendMessage(chatId, "چند دقیقه صبر کنید نسخه فارسیش رو هم بهت تحویل میدم\nplease wait for the Persian result");
-        await bot.sendMessage(chatId, "😉");
+                // Notify user about waiting for the Persian translation
+                await bot.sendMessage(chatId, "چند دقیقه صبر کنید نسخه فارسیش رو هم بهت تحویل میدم\nplease wait for the Persian result");
+                await bot.sendMessage(chatId, "😉");
 
-        // Prepare and send the request for translation
-        const object2 = {
-            message: "اینو به فارسی ترجمه کن با اما سعی کن اصطلاحات انگلیسی را حفظ کنی" + res.data,
-            idChat: chatId
-        };
-        res = await axios.post('http://localhost:3001/gpt4', object2);
-        console.log(res.data);
-        await bot.sendMessage(chatId, tellMeHowToDoIt[0]);
+                // Prepare and send the request for translation
+                const object2 = {
+                    message: "اینو به فارسی ترجمه کن با اما سعی کن اصطلاحات انگلیسی را حفظ کنی" + res.data,
+                    idChat: chatId
+                };
+                res = await axios.post('http://localhost:3001/gpt4', object2);
+                console.log(res.data);
+                await bot.sendMessage(chatId, tellMeHowToDoIt[0]);
 
-        // Send the translated response
-        await sendLongMessage(bot, chatId, res.data);
-        await sendCustomMessage(bot, chatId);
+                // Send the translated response
+                await sendLongMessage(bot, chatId, res.data);
+                await sendCustomMessage(bot, chatId);
+            } catch (error) {
+                console.error('Error:', error);
+                await bot.sendMessage(chatId, "Sorry, there was an error processing your request.");
+            }
+
+        } else {
+            await bot.sendMessage(chatId, "متاسفانه شارژ حساب کاربری شما تمام شده یا شارژ کنید یا از دوستانتان دعوت کنید \n your account need charge please charge it or invite your friends", {
+                reply_markup: {
+                    keyboard: [
+                        [{text: messageChargeOption1}],
+                        [{text: messageChargeByInvite}],
+                        [{text: mainMenu[2]}],
+                    ],
+                    resize_keyboard: true,
+                    one_time_keyboard: true
+                }
+            });
+        }
     } catch (error) {
         console.error('Error:', error);
         await bot.sendMessage(chatId, "Sorry, there was an error processing your request.");
     }
+
 }
 
 
@@ -1226,18 +1385,22 @@ async function handleBotLogicDiet(bot, chatId, object) {
                 await bot.sendMessage(chatId, "Sorry, there was an error processing your request.");
             }
 
-
-
         } else {
-            await bot.sendMessage(chatId, "متاسفانه شارژ حساب کاربری شما تمام شده یا شارژ کنید یا از دوستانتان دعوت کنید \n your account need charge please charge it or invite your friends");
-            // menu charge is better if it comes here
-            await sendCustomMessage(bot, chatId);
+            await bot.sendMessage(chatId, "متاسفانه شارژ حساب کاربری شما تمام شده یا شارژ کنید یا از دوستانتان دعوت کنید \n your account need charge please charge it or invite your friends", {
+                reply_markup: {
+                    keyboard: [
+                        [{text: messageChargeOption1}],
+                        [{text: messageChargeByInvite}],
+                        [{text: mainMenu[2]}],
+                    ],
+                    resize_keyboard: true,
+                    one_time_keyboard: true
+                }
+            });
         }
     } catch (error) {
         console.error('Error:', error);
         await bot.sendMessage(chatId, "Sorry, there was an error processing your request.");
     }
-
-
 }
 
