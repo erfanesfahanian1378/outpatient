@@ -485,7 +485,7 @@ bot.on('message', async (msg) => {
                 console.log(userState);
 
                 const object = {
-                    message: "The most important thing is that i need to have plan for every day with full explanation" + userState.lastText,
+                    message: "**The most important thing is that i need the full explanation for each meal in every day so Please remember explain every day meals and snacks completely** " + userState.lastText,
                     idChat: chatId
                 };
                 await bot.sendMessage(chatId, surprise);
@@ -1191,35 +1191,53 @@ async function handleBotLogic(bot, chatId, object) {
 
 
 async function handleBotLogicDiet(bot, chatId, object) {
-
     try {
-        // Send request to your API and get the initial response
-        let res = await axios.post('http://localhost:3001/gpt4Low', object);
-        console.log(res.data);
+        let res = await axios.get('http://localhost:3001/isUserValid?idChat=' + chatId);
+        if (res.data.message === "its valid") {
+            console.log("The user has subscription");
 
-        // Send the initial long response
-        await sendLongMessage(bot, chatId, res.data);
+            try {
+                // Send request to your API and get the initial response
+                let res = await axios.post('http://localhost:3001/gpt4Low', object);
+                console.log(res.data);
+
+                // Send the initial long response
+                await sendLongMessage(bot, chatId, res.data);
 
 
-        // Notify user about waiting for the Persian translation
-        await bot.sendMessage(chatId, "چند دقیقه صبر کنید نسخه فارسیش رو هم بهت تحویل میدم\nplease wait for the Persian result");
-        await bot.sendMessage(chatId, "😉");
+                // Notify user about waiting for the Persian translation
+                await bot.sendMessage(chatId, "چند دقیقه صبر کنید نسخه فارسیش رو هم بهت تحویل میدم\nplease wait for the Persian result");
+                await bot.sendMessage(chatId, "😉");
 
-        // Prepare and send the request for translation
-        const object2 = {
-            message: "این متن رو به صورت دقیق و کامل به فارسی ترجمه کن بدون این که قسمتی جا به ماند خیلی مهم است که به صورت کامل ترجمه شود" + "[" + res.data + "]",
-            idChat: chatId
-        };
-        res = await axios.post('http://localhost:3001/gpt4Low', object2);
-        console.log(res.data);
-        await bot.sendMessage(chatId, tellMeHowToDoIt[0]);
+                // Prepare and send the request for translation
+                const object2 = {
+                    message: "این متن رو به صورت دقیق و کامل به فارسی ترجمه کن بدون این که قسمتی جا به ماند خیلی مهم است که به صورت کامل ترجمه شود" + "[" + res.data + "]",
+                    idChat: chatId
+                };
+                res = await axios.post('http://localhost:3001/gpt4Low', object2);
+                console.log(res.data);
+                await bot.sendMessage(chatId, tellMeHowToDoIt[0]);
 
-        // Send the translated response
-        await sendLongMessage(bot, chatId, res.data);
-        await sendCustomMessage(bot, chatId);
+                // Send the translated response
+                await sendLongMessage(bot, chatId, res.data);
+                await sendCustomMessage(bot, chatId);
+            } catch (error) {
+                console.error('Error:', error);
+                await bot.sendMessage(chatId, "Sorry, there was an error processing your request.");
+            }
+
+
+
+        } else {
+            await bot.sendMessage(chatId, "متاسفانه شارژ حساب کاربری شما تمام شده یا شارژ کنید یا از دوستانتان دعوت کنید \n your account need charge please charge it or invite your friends");
+            // menu charge is better if it comes here
+            await sendCustomMessage(bot, chatId);
+        }
     } catch (error) {
         console.error('Error:', error);
         await bot.sendMessage(chatId, "Sorry, there was an error processing your request.");
     }
+
+
 }
 
