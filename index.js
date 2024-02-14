@@ -1021,7 +1021,7 @@ Here's the status of your subscriptions for Protein products:
                 // Handle the referral logic here
                 console.log(`User ${username || name} was referred by ${referralId}`);
                 try {
-                    await axios.post('http://localhost:3001/inviteBlood', {
+                    await axios.post('http://localhost:3001/invite', {
                         idChatInvitePerson: referralId,
                         idChatGuest: msg.from.id
                     });
@@ -1205,7 +1205,6 @@ async function sendCustomMessage(bot, chatId) {
                 [{text: makeMeADiet}],
                 [{text: createSportProgram}],
                 [{text: tellMeHowToDoIt[1]}],
-                [{text: changeFood}],
                 [{text: recipe}],
                 [{text: aboutUs[2]}],
                 [{text: userProfile[2]}]
