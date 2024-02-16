@@ -21,18 +21,18 @@ let sportClub = ["آیا به باشگاه دسترسی دارید یا میخو
 let mainMenu = ['منو اصلی', 'main menu', 'منو اصلی | main menu'];
 const surprise = "[اگه به برنامه تغذیه ای ما که با استفاده از 🔥🔥هوشمند ترین🔥🔥 برنامه کامپیوتری ایجاد شده پایبند باشی خیلی راحت به وزن ایده آلت میرسی. سایر کاربران به طور متوسط ماهانه 🤯🤩۳🤯🤩 کیلوگرم کاهش وزن دارند.\n\nIf you stick to our diet plan, which is created using the 🔥🔥smartest🔥🔥 computer program, you'll easily reach your ideal weight. Other users lose an average of 🤯🤩3🤯🤩 kilograms per month.\n]";
 let physicalLever = ["سطح فعالیت فیزیکی شما \n Your physical activity level", "بی تحرک | Sedentary", "فعالیت سبک | lightly Active", "فعالیت متوسط | Moderately active", "بسیار فعال | Very Active"];
-let createSportProgram = "برام یک برنامه ورزشی درست کن 💪|💪make me a sport program";
+let createSportProgram = "برام یک برنامه ورزشی درست کن 💪|💪give me a sport program";
 let disability = ["اگر مشکلات پزشکی یا محدودیت جسمی دارید بر روی دکمه توضیح مشکلات بزنید \n if you have a medical problem or disability please press explain your problem", "توضیح مشکل | explain the problem", "مشکلی ندارم | I dont have problem"]
-let bloodTest = ['ازمایش خون', 'blood test', "آزمایشم را بررسی کن🩸🧪|🩸🧪review my blood test"];
+let bloodTest = ['ازمایش خون', 'blood test', "آزمایش خونم را بررسی کن🩸🧪|🩸🧪review my blood test"];
 const foodRegion = ["غذای شما به سبک چه کشوری باشد ؟ |?What country style should your food be", "غذای ایرانی | Persian food", "غذای ایتالیایی | Italian food", "برام مهم نیست | I dont care"];
 let userProfile = ['حساب کاربری شما📖✏️', 'your profile 📖✏️', 'حساب کاربری شما📖✏|📖✏your profile'];
-let tellMeHowToDoIt = ["اگر نحوه انجام حرکت ورزشی مورد نظر خود را بلد نیستید از داخل منو بخش اموزش حرکات ورزشی میتوانید نحوه انجام ان را ببنید\nif you dont know how to do these move you can go to the menu and choose the option tell me how to do it and see the instruction of the move ", "چجوری این حرکت رو انجام بدم💪🏻|💪🏻tell me how to do it", "💪🏻", "فقط نام حرکتت را بنویس تا نحوه اجرای آن رو بهت آموزش بدم \n just write the name of your move so i tell you how to do it", "چند لحظه صبر کن تا اطلاعات حرکت مورد نظرت رو بهت بدم \n in a few seconds i will send you the move information"];
+let tellMeHowToDoIt = ["اگر نحوه انجام حرکت ورزشی مورد نظر خود را بلد نیستید از داخل منو بخش اموزش حرکات ورزشی میتوانید نحوه انجام ان را ببنید\nif you dont know how to do these move you can go to the menu and choose the option tell me how to do it and see the instruction of the move ", "چجوری این حرکت رو انجام بدم🧐|🧐How do I do this move", "💪🏻", "فقط نام حرکتت را بنویس تا نحوه اجرای آن رو بهت آموزش بدم \n just write the name of your move so I will tell you how to do it", "چند لحظه صبر کن تا اطلاعات حرکت مورد نظرت رو بهت بدم \n in a few seconds i will send you the move information"];
 let aboutUs = ['درباره ما', 'about us', 'درباره ما | about us'];
 let TextStepsProcessSportProgram = ["لطفا سن خود راانتخاب کنید\nplease choose your age ", "اگر الان نمیخواهید برنامه ورزشی بسازید بر روی دکمه منو بزنید\nif you don't want to create a sport program right now click on the menu button  "]
 let recipe = "نحوه پخت غذایم را آموزش بده 👨‍🍳|👨‍🍳 tell me how to cook";
 let bloodTestText = 'لطفا عکس های هر صفحه ازمایش خود را به صورت کاملا واضح و صفحه به صفحه برای ما بفرستید پس از فرستادن هر صفحه از ازمایش در صورت باقی ماندن صفحات دکمه ادامه فرستادن عکس را بزنید. ⚠️⚠️⚠️اگر عکس ها به صورت کاملا واضح فرستاده نشوند احتمال اشتباه ربات بسیار زیاد است. ⚠️⚠️⚠️\n please sent ous your blood test page by page and after sending each page if theres more click on continue sending ⚠️⚠️⚠️if you dont send clear photo the bot may make mistake⚠️⚠️⚠️ / '
 let optionBloodTest = ["ادامه فرستادن عکس | continue sending", "نتیجه آزمایش | the final result"];
-let recipeText = "لطفا نام غذای مورد نظرتان را بنویسید 🌭\n🌭 please write the name of your food";
+let recipeText = "لطفا نام غذای مورد نظرتان را بنویسید 🌭\n🌭 please write the food's name";
 let hours = "چند ساعت در هفته میتوانید برای برنامه تمرینی وقت بگذارید\n How much time can you devote to exercise per week?";
 let plansMessage = "";
 let goalOfActivity = ["هدف ورزشی شما چیست؟ 🏹|🏹 ?whats your goal", "وزن کم کنید | lower your weight", "عضله سازی کنید | build muscle", "استقامت خود را افزایش دهید | Increase your stamina"];
@@ -52,7 +52,7 @@ let promoteUs = ["با معرفی ما به دوستان خود از ما حما
 let channelJoin = `لطفا ابتدا عضو کانال‌های ${channelUsername} و ${channelUsername2} شوید.` + 'please first join these two channels';
 let ifContinuePhoto = 'اگر همچنان میخواهید عکس اضافه کنید بر روی دکمه ادامه میدهم بزنید اگر عکس های ازمایش شما به صورت کامل فرستاده شده بر روی گزینه بررسی ازمایش بزنید. \n if you want to continue adding photo press continue . if its already done and you want to see the result press review it';
 let changeFood = 'غدای رژیمم را عوض کن 🍕|🍕change the food of my diet';
-let makeMeADiet = 'برام یک رژیم غذایی درست کن🥙|🥙make me a diet';
+let makeMeADiet = 'برام یک رژیم غذایی درست کن🥙|🥙give me a diet schedule';
 let wrongPhotoSending = "لطفا از منو گزینه درست را انتخاب کنید\nplease choose the right option from the menu"
 let bloodTestPersianAndEnglishAlert = ["نسخه انگلیسی جواب آزمایش\n this the english result of the test", "نسخه فارسی نیز تا حداکثر دو دقیقه دیگر برای شما ارسال خواهد شد|the persian result will send you within two minutes", "نسخه فارسی جواب آزمایش\n this the Persian result of the test"]
 bot.on('message', async (msg) => {
@@ -535,7 +535,7 @@ Thank you for being awesome! 🎉💐`;
             }
             objectKeyboard[objectKeyboard.length] = [{text: mainMenu[2]}];
 
-            await bot.sendMessage(chatId, "بیا با هم یه برنامه ورزشی بسازیم که همیشه سالم بمونی \n lets create a sport program and be healthy");
+            await bot.sendMessage(chatId, "بیا با هم یه برنامه ورزشی بسازیم که همیشه سالم بمونی \n lets create a sport program and become healthy");
             await bot.sendMessage(chatId, "⚽️");
             await bot.sendMessage(chatId, TextStepsProcessSportProgram[0], {
                 reply_markup: {
@@ -1077,7 +1077,7 @@ Here's the status of your subscriptions for Protein products:
                         bloodTestChannel: true,
                         idChat: msg.from.id
                     });
-                    await bot.sendMessage(chatId, welcomeMessage[0]);
+                    await bot.sendMessage(chatId, welcomeMessage[0] + "\n" + welcomeMessage[1]);
                 } catch (error) {
                     console.error('Error sending data to server:', error);
                     await bot.sendMessage(chatId, error);
@@ -1117,7 +1117,7 @@ Here's the status of your subscriptions for Protein products:
                         bloodTestChannel: true,
                         idChat: msg.from.id
                     });
-                    await bot.sendMessage(chatId, welcomeMessage[0]);
+                    await bot.sendMessage(chatId, welcomeMessage[0] + "\n" + welcomeMessage[1]);
                 } catch (error) {
                     console.error('Error sending data to server:', error);
                     await bot.sendMessage(chatId, error);
