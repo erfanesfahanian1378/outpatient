@@ -32,7 +32,7 @@ let TextStepsProcessSportProgram = ["لطفا سن خود راانتخاب کن�
 let recipe = "نحوه پخت غذایم را آموزش بده 👨‍🍳|👨‍🍳 tell me how to cook";
 let bloodTestText = 'لطفا عکس های هر صفحه ازمایش خود را به صورت کاملا واضح و صفحه به صفحه برای ما بفرستید پس از فرستادن هر صفحه از ازمایش در صورت باقی ماندن صفحات دکمه ادامه فرستادن عکس را بزنید. ⚠️⚠️⚠️اگر عکس ها به صورت کاملا واضح فرستاده نشوند احتمال اشتباه ربات بسیار زیاد است. ⚠️⚠️⚠️\n please sent ous your blood test page by page and after sending each page if theres more click on continue sending ⚠️⚠️⚠️if you dont send clear photo the bot may make mistake⚠️⚠️⚠️ / '
 let optionBloodTest = ["ادامه فرستادن عکس | continue sending", "نتیجه آزمایش | the final result"];
-let recipeText = "لطفا نام غذای مورد نظرتان را بنویسید 🌭|🌭 please write the name of your food";
+let recipeText = "لطفا نام غذای مورد نظرتان را بنویسید 🌭\n🌭 please write the name of your food";
 let hours = "چند ساعت در هفته میتوانید برای برنامه تمرینی وقت بگذارید\n How much time can you devote to exercise per week?";
 let plansMessage = "";
 let goalOfActivity = ["هدف ورزشی شما چیست؟ 🏹|🏹 ?whats your goal", "وزن کم کنید | lower your weight", "عضله سازی کنید | build muscle", "استقامت خود را افزایش دهید | Increase your stamina"];
@@ -901,7 +901,15 @@ Personalization: I will provide you my information and my goal and my limits her
 
         } else if (text === tellMeHowToDoIt[1]) {
             await bot.sendMessage(chatId, tellMeHowToDoIt[2]);
-            await bot.sendMessage(chatId, tellMeHowToDoIt[3]);
+            await bot.sendMessage(chatId,tellMeHowToDoIt[3] , {
+                reply_markup: {
+                    keyboard: [
+                        [{text: mainMenu[2]}],
+                    ],
+                    resize_keyboard: true,
+                    one_time_keyboard: true
+                }
+            });
             userStates.set(chatId, {
                 ...userState,
                 requestExplainingSportMove: true
@@ -1132,13 +1140,29 @@ Here's the status of your subscriptions for Protein products:
             }
         } else if (text === recipe) {
             await bot.sendMessage(chatId, '🍟');
-            await bot.sendMessage(chatId, recipeText);
+           await bot.sendMessage(chatId, recipeText, {
+                reply_markup: {
+                    keyboard: [
+                        [{text: mainMenu[2]}]
+                    ],
+                    resize_keyboard: true,
+                    one_time_keyboard: true
+                }
+            });
             userStates.set(chatId, {
                 ...userState,
                 orderingRecipe: true
             });
         } else if (text === bloodTest[2]) {
-            await bot.sendMessage(chatId, bloodTestText);
+            await bot.sendMessage(chatId, bloodTestText, {
+                reply_markup: {
+                    keyboard: [
+                        [{text: mainMenu[2]}]
+                    ],
+                    resize_keyboard: true,
+                    one_time_keyboard: true
+                }
+            });
             userStates.set(chatId, {
                 ...userState,
                 IsRequestingBloodTest: true
